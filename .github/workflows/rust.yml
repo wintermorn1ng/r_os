@@ -21,6 +21,6 @@ jobs:
     - name: Run clippy
       run: cargo clippy
     - name: Run build image
-      run: cargo install bootimage
-           rustup component add llvm-tools-preview
+      run: cargo install bootimage &&
+           rustup component add llvm-tools-preview &&
            cargo bootimage
