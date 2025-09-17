@@ -5,27 +5,22 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::{panic::PanicInfo};
-use r_os::println;
 
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
+#[unsafe(no_mangle)]
+pub extern "C" fn _start() ->! {
+    test_main();
+
     loop {}
 }
 
-#[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     r_os::test_panic_handle(info)
 }
 
-#[unsafe(no_mangle)]
-pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", "!");
+use r_os::println;
 
-    #[cfg(test)]
-    test_main();
-
-    loop {}
+#[test_case]
+fn test_println() {
+    println!("test_println output");
 }
